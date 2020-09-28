@@ -1,27 +1,41 @@
+// Single Instance
+// Example - redux store, user context, app settings, theme
+
 const Singleton = (function () {
     let instance;
 
-    function Logger() {
-    };
+    function ReduxStore() {
+        var _users = ['rajiv', 'anand'];
+        var _setings = ['dark theme'];
 
-    Logger.prototype.log = function (message) {
-        console.log(message);
+        Object.defineProperties(this, {
+            "users": {
+                get: function () {
+                    return _users;
+                },
+                set: function (value) {
+                    _users.push(value);
+                }
+            }
+        });
     }
 
     return {
         getInstance: function () {
             if (!instance) {
-                instance = new Logger();
+                instance = new ReduxStore();
             }
             return instance;
         }
     }
 })();
 
-var obj1 = Singleton.getInstance();
-var obj2 = Singleton.getInstance();
+let instance1 = Singleton.getInstance();
+let instance2 = Singleton.getInstance();
 
-console.log(obj1 === obj2);
+console.log(instance1 === instance2);
 
-obj1.log(`Date time - ${new Date()}`);
-obj2.log('Yoo!! both instance are same.');
+instance1.users = 'admin';
+
+console.log(instance1.users);
+console.log(instance2.users);
